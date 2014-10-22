@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		842072EA19F789CB0038E12E /* WG_KMLStyleContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 842072E919F789CB0038E12E /* WG_KMLStyleContainer.m */; };
 		845713F119F53640004D336A /* ColorConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 845713EB19F53640004D336A /* ColorConverter.m */; };
 		845713F219F53640004D336A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 845713ED19F53640004D336A /* OptionsViewController.m */; };
 		845713F319F53640004D336A /* OptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 845713EE19F53640004D336A /* OptionsViewController.xib */; };
@@ -45,6 +46,8 @@
 
 /* Begin PBXFileReference section */
 		5E7E707192482BBFBD51456D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		842072E819F789CB0038E12E /* WG_KMLStyleContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WG_KMLStyleContainer.h; sourceTree = "<group>"; };
+		842072E919F789CB0038E12E /* WG_KMLStyleContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WG_KMLStyleContainer.m; sourceTree = "<group>"; };
 		845713EA19F53640004D336A /* ColorConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorConverter.h; sourceTree = "<group>"; };
 		845713EB19F53640004D336A /* ColorConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorConverter.m; sourceTree = "<group>"; };
 		845713EC19F53640004D336A /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsViewController.h; sourceTree = "<group>"; };
@@ -180,6 +183,8 @@
 				845713EE19F53640004D336A /* OptionsViewController.xib */,
 				845713EF19F53640004D336A /* WG_KML.h */,
 				845713F019F53640004D336A /* WG_KML.m */,
+				842072E819F789CB0038E12E /* WG_KMLStyleContainer.h */,
+				842072E919F789CB0038E12E /* WG_KMLStyleContainer.m */,
 				84DE92A419F5301800D19747 /* Main.storyboard */,
 				84DE92A719F5301800D19747 /* Images.xcassets */,
 				84DE929A19F5301800D19747 /* Supporting Files */,
@@ -358,6 +363,7 @@
 				84DE92A019F5301800D19747 /* AppDelegate.m in Sources */,
 				845713F219F53640004D336A /* OptionsViewController.m in Sources */,
 				845713F119F53640004D336A /* ColorConverter.m in Sources */,
+				842072EA19F789CB0038E12E /* WG_KMLStyleContainer.m in Sources */,
 				84DE929D19F5301800D19747 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
