@@ -68,6 +68,12 @@
         case NuclearPowerPlants_JPN:
             [self fetchNuclearPowerPlants_JPN];
             break;
+        case Sea_Level_Trends:
+            [self fetchSea_Level_Trends];
+            break;
+        case RailRoads:
+            [self fetchRailRoads];
+            break;
     }
 }
 
@@ -120,6 +126,21 @@
     [wg_kml loadicons];
 }
 
+- (void) fetchSea_Level_Trends
+{
+    WG_KML *wg_kml = [[WG_KML alloc]init];
+    wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample6" ofType:@"kml"];
+    wg_kml.theViewC = theViewC;
+    [wg_kml loadicons];
+}
+
+- (void) fetchRailRoads
+{
+    WG_KML *wg_kml = [[WG_KML alloc]init];
+    wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample7" ofType:@"kml"];
+    wg_kml.theViewC = theViewC;
+    [wg_kml loadlines];
+}
 
 - (void)globeViewController:(WhirlyGlobeViewController *)viewC didSelect:(NSObject *) selectedObj atLoc:(MaplyCoordinate)coord onScreen:(CGPoint)screenPt
 {

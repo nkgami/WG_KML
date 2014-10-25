@@ -17,6 +17,8 @@
 		8457140119F53C16004D336A /* sample3.kml in Resources */ = {isa = PBXBuildFile; fileRef = 845713FC19F53C16004D336A /* sample3.kml */; };
 		8457140219F53C16004D336A /* sample4.kml in Resources */ = {isa = PBXBuildFile; fileRef = 845713FD19F53C16004D336A /* sample4.kml */; };
 		8457140319F53C16004D336A /* sample5.kml in Resources */ = {isa = PBXBuildFile; fileRef = 845713FE19F53C16004D336A /* sample5.kml */; };
+		84C12CDC19F9F2EA006D4200 /* sample6.kml in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CDB19F9F2EA006D4200 /* sample6.kml */; };
+		84C12CDE19FA5B26006D4200 /* sample7.kml in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CDD19FA5B26006D4200 /* sample7.kml */; };
 		84DE929D19F5301800D19747 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929C19F5301800D19747 /* main.m */; };
 		84DE92A019F5301800D19747 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929F19F5301800D19747 /* AppDelegate.m */; };
 		84DE92A319F5301800D19747 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE92A219F5301800D19747 /* ViewController.m */; };
@@ -62,6 +64,8 @@
 		845713FC19F53C16004D336A /* sample3.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample3.kml; path = resources/sample3.kml; sourceTree = "<group>"; };
 		845713FD19F53C16004D336A /* sample4.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample4.kml; path = resources/sample4.kml; sourceTree = "<group>"; };
 		845713FE19F53C16004D336A /* sample5.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample5.kml; path = resources/sample5.kml; sourceTree = "<group>"; };
+		84C12CDB19F9F2EA006D4200 /* sample6.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample6.kml; path = resources/sample6.kml; sourceTree = "<group>"; };
+		84C12CDD19FA5B26006D4200 /* sample7.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample7.kml; path = resources/sample7.kml; sourceTree = "<group>"; };
 		84DE929719F5301800D19747 /* WG_KML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WG_KML.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DE929B19F5301800D19747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DE929C19F5301800D19747 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -137,9 +141,11 @@
 			children = (
 				845713FA19F53C16004D336A /* sample.kml */,
 				845713FB19F53C16004D336A /* sample2.kml */,
+				84C12CDD19FA5B26006D4200 /* sample7.kml */,
 				845713FC19F53C16004D336A /* sample3.kml */,
 				845713FD19F53C16004D336A /* sample4.kml */,
 				845713FE19F53C16004D336A /* sample5.kml */,
+				84C12CDB19F9F2EA006D4200 /* sample6.kml */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -302,7 +308,9 @@
 			files = (
 				84DE92A619F5301800D19747 /* Main.storyboard in Resources */,
 				845713F319F53640004D336A /* OptionsViewController.xib in Resources */,
+				84C12CDC19F9F2EA006D4200 /* sample6.kml in Resources */,
 				8457140119F53C16004D336A /* sample3.kml in Resources */,
+				84C12CDE19FA5B26006D4200 /* sample7.kml in Resources */,
 				8457140219F53C16004D336A /* sample4.kml in Resources */,
 				8457140319F53C16004D336A /* sample5.kml in Resources */,
 				845713FF19F53C16004D336A /* sample.kml in Resources */,

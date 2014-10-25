@@ -14,4 +14,5 @@
 @property WhirlyGlobeViewController *theViewC;
 -(void)loadicons;
 -(void)loadpolys;
+-(void)loadlines;
 @end

@@ -20,7 +20,8 @@ and unzip.
 
 ## Sample data
 Sample kml data come from http://globalenergyobservatory.org/ (powerplants data)
- and http://www.kmlfactbook.org/ (population growth rate data).
+ , http://www.kmlfactbook.org/ (population growth rate data) , http://tidesandcurrents.noaa.gov/googleearth.shtml
+( sea level trends data), and rail roads data (https://productforums.google.com/forum/#!topic/gec-dynamic-data-layers/uxDOZt6o7HU).
 Thanks to these data sources.
 
 ## Author

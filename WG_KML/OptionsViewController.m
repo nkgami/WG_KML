@@ -39,7 +39,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,6 +60,12 @@
             break;
         case 4:
             cell.textLabel.text = @"NuclearPowerPlants_JPN";
+            break;
+        case 5:
+            cell.textLabel.text = @"Sea_Level_Trends";
+            break;
+        case 6:
+            cell.textLabel.text = @"RailRoads";
             break;
         default:
             break;

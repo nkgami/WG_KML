@@ -27,8 +27,14 @@
         if([substyle isKindOfClass:[KMLStyle class]]){
             WG_KMLStyleContainer *tempstyle = [[WG_KMLStyleContainer alloc] init];
             [tempstyle setStyles:(KMLStyle *)substyle];
-            [styles setObject:tempstyle forKey:((KMLStyle *)substyle).objectID];
-            
+            if([((KMLStyle *)substyle).objectID rangeOfString:@"http://"].location == NSNotFound &&
+               [((KMLStyle *)substyle).objectID rangeOfString:@"https://"].location == NSNotFound){
+                [styles setObject:tempstyle forKey:
+                 [NSString stringWithFormat:@"#%@",((KMLStyle *)substyle).objectID]];
+            }
+            else{
+                [styles setObject:tempstyle forKey:((KMLStyle *)substyle).objectID];
+            }
         }
     }
     
@@ -39,7 +45,22 @@
         float latitude = 0,longitude = 0, altitude = 0;
 
         //set styles
-        WG_KMLStyleContainer *pstyle = [styles objectForKey:place.styleUrl];
+        WG_KMLStyleContainer *pstyle;
+        if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
+           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
+            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
+                pstyle = [styles objectForKey:
+                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
+                
+            }
+            else{
+                pstyle = [styles objectForKey:place.styleUrl];
+            }
+        }
+        else{
+            //load from URL
+            //need another logic
+        }
         float iconscale;
         NSString *pngpath;
         NSString *color;
@@ -119,15 +140,38 @@
         if([substyle isKindOfClass:[KMLStyle class]]){
             WG_KMLStyleContainer *tempstyle = [[WG_KMLStyleContainer alloc] init];
             [tempstyle setStyles:(KMLStyle *)substyle];
-            [styles setObject:tempstyle forKey:((KMLStyle *)substyle).objectID];
-            
+            if([((KMLStyle *)substyle).objectID rangeOfString:@"http://"].location == NSNotFound &&
+               [((KMLStyle *)substyle).objectID rangeOfString:@"https://"].location == NSNotFound){
+                [styles setObject:tempstyle forKey:
+                 [NSString stringWithFormat:@"#%@",((KMLStyle *)substyle).objectID]];
+            }
+            else{
+                [styles setObject:tempstyle forKey:((KMLStyle *)substyle).objectID];
+            }
         }
     }
+    
     //load each placemark
     NSArray *placemarks = [root placemarks];
     for (id object in placemarks) {
         KMLPlacemark *place = object;
-        WG_KMLStyleContainer *pstyle = [styles objectForKey:place.styleUrl];
+        //set styles
+        WG_KMLStyleContainer *pstyle;
+        if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
+           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
+            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
+                pstyle = [styles objectForKey:
+                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
+                
+            }
+            else{
+                pstyle = [styles objectForKey:place.styleUrl];
+            }
+        }
+        else{
+            //load from URL
+            //need another logic
+        }
         NSString *color;
         if(pstyle.poly.color != nil){
             color = pstyle.poly.color;
@@ -164,11 +208,11 @@
                         UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
                         [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                          kMaplyFilled:@YES}];
-                        [_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
+                        //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
                     }
                     else{
                         [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
-                        [_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
+                        //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
                     }
                 }
             }
@@ -190,13 +234,124 @@
                 UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
                 [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                           kMaplyFilled:@YES}];
-                [_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
+                //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
             }
             else{
                 [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
-                [_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
+                //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
             }
 
+        }
+    }
+}
+-(void)loadlines
+{
+    NSMutableDictionary *styles = [NSMutableDictionary dictionary];
+    NSError *error;
+    NSString *text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    //parsing kml
+    KMLRoot *root = [KMLParser parseKMLWithString:text];
+    //get style property for each style objectID
+    for (NSObject *substyle in root.feature.styleSelectors){
+        if([substyle isKindOfClass:[KMLStyle class]]){
+            WG_KMLStyleContainer *tempstyle = [[WG_KMLStyleContainer alloc] init];
+            [tempstyle setStyles:(KMLStyle *)substyle];
+            if([((KMLStyle *)substyle).objectID rangeOfString:@"http://"].location == NSNotFound &&
+               [((KMLStyle *)substyle).objectID rangeOfString:@"https://"].location == NSNotFound){
+                [styles setObject:tempstyle forKey:
+                 [NSString stringWithFormat:@"#%@",((KMLStyle *)substyle).objectID]];
+            }
+            else{
+                [styles setObject:tempstyle forKey:((KMLStyle *)substyle).objectID];
+            }
+        }
+    }
+    
+    //load each placemark
+    NSArray *placemarks = [root placemarks];
+    for (id object in placemarks) {
+        KMLPlacemark *place = object;
+        //set styles
+        WG_KMLStyleContainer *pstyle;
+        if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
+           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
+            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
+                pstyle = [styles objectForKey:
+                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
+                
+            }
+            else{
+                pstyle = [styles objectForKey:place.styleUrl];
+            }
+        }
+        else{
+            //load from URL
+            //need another logic
+        }
+        NSString *color;
+        if(pstyle.line.color != nil){
+            color = pstyle.line.color;
+        }
+        else{
+            color = nil;
+        }
+        if(place.style.lineStyle.color != nil){
+            color = place.style.lineStyle.color;
+        }
+        else{
+            color = nil;
+        }
+        if([place.geometry isKindOfClass:[KMLMultiGeometry class]]){
+            float latitude = 0,longitude = 0;
+            for ( KMLAbstractGeometry *x in ((KMLMultiGeometry *)place.geometry).geometries ) {
+                if([x isKindOfClass:[KMLPoint class]]){
+                    latitude = ((KMLPoint *)x).coordinate.latitude;
+                    longitude = ((KMLPoint *)x).coordinate.longitude;
+                }
+                else if([x isKindOfClass:[KMLLineString class]]){
+                    NSArray *line_points = ((KMLLineString *)x).coordinates;
+                    MaplyCoordinate coords[[line_points count]];
+                    int i = 0;
+                    for(KMLCoordinate *y in line_points){
+                        coords[i] = MaplyCoordinateMakeWithDegrees(y.longitude, y.latitude);
+                        i += 1;
+                    }
+                    MaplyVectorObject *sfOutline = [[MaplyVectorObject alloc] initWithAreal:coords numCoords:i attributes:nil];
+                    if(color != nil){
+                        
+                        ColorConverter *cv = [[ColorConverter alloc] init];
+                        [cv set_str:color];
+                        UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
+                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                                                                  kMaplyFilled:@NO}];
+                    }
+                    else{
+                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+                    }
+                }
+            }
+        }
+        else if([place.geometry isKindOfClass:[KMLLineString class]]){
+            KMLLineString *x = (KMLLineString *)place.geometry;
+            NSArray *line_points = ((KMLLineString *)x).coordinates;
+            MaplyCoordinate coords[[line_points count]];
+            int i = 0;
+            for(KMLCoordinate *y in line_points){
+                coords[i] = MaplyCoordinateMakeWithDegrees(y.longitude, y.latitude);
+                i += 1;
+            }
+            MaplyVectorObject *sfOutline = [[MaplyVectorObject alloc] initWithAreal:coords numCoords:i attributes:nil];
+            if(color != nil){
+                
+                ColorConverter *cv = [[ColorConverter alloc] init];
+                [cv set_str:color];
+                UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
+                [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                                                          kMaplyFilled:@NO}];
+            }
+            else{
+                [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+            }
         }
     }
 }
