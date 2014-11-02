@@ -19,6 +19,12 @@
 		8457140319F53C16004D336A /* sample5.kml in Resources */ = {isa = PBXBuildFile; fileRef = 845713FE19F53C16004D336A /* sample5.kml */; };
 		84C12CDC19F9F2EA006D4200 /* sample6.kml in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CDB19F9F2EA006D4200 /* sample6.kml */; };
 		84C12CDE19FA5B26006D4200 /* sample7.kml in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CDD19FA5B26006D4200 /* sample7.kml */; };
+		84C12CED1A0627D1006D4200 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CE31A0627D1006D4200 /* ioapi.c */; };
+		84C12CEE1A0627D1006D4200 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CE51A0627D1006D4200 /* mztools.c */; };
+		84C12CEF1A0627D1006D4200 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CE71A0627D1006D4200 /* unzip.c */; };
+		84C12CF01A0627D1006D4200 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CE91A0627D1006D4200 /* zip.c */; };
+		84C12CF11A0627D1006D4200 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CEC1A0627D1006D4200 /* ZipArchive.mm */; };
+		84C12CF31A062DE1006D4200 /* sample8.kmz in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CF21A062DE1006D4200 /* sample8.kmz */; };
 		84DE929D19F5301800D19747 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929C19F5301800D19747 /* main.m */; };
 		84DE92A019F5301800D19747 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929F19F5301800D19747 /* AppDelegate.m */; };
 		84DE92A319F5301800D19747 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE92A219F5301800D19747 /* ViewController.m */; };
@@ -66,6 +72,18 @@
 		845713FE19F53C16004D336A /* sample5.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample5.kml; path = resources/sample5.kml; sourceTree = "<group>"; };
 		84C12CDB19F9F2EA006D4200 /* sample6.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample6.kml; path = resources/sample6.kml; sourceTree = "<group>"; };
 		84C12CDD19FA5B26006D4200 /* sample7.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sample7.kml; path = resources/sample7.kml; sourceTree = "<group>"; };
+		84C12CE21A0627D1006D4200 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		84C12CE31A0627D1006D4200 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		84C12CE41A0627D1006D4200 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		84C12CE51A0627D1006D4200 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		84C12CE61A0627D1006D4200 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		84C12CE71A0627D1006D4200 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		84C12CE81A0627D1006D4200 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		84C12CE91A0627D1006D4200 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		84C12CEA1A0627D1006D4200 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		84C12CEB1A0627D1006D4200 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		84C12CEC1A0627D1006D4200 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		84C12CF21A062DE1006D4200 /* sample8.kmz */ = {isa = PBXFileReference; lastKnownFileType = file; name = sample8.kmz; path = resources/sample8.kmz; sourceTree = "<group>"; };
 		84DE929719F5301800D19747 /* WG_KML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WG_KML.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DE929B19F5301800D19747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DE929C19F5301800D19747 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -146,8 +164,44 @@
 				845713FD19F53C16004D336A /* sample4.kml */,
 				845713FE19F53C16004D336A /* sample5.kml */,
 				84C12CDB19F9F2EA006D4200 /* sample6.kml */,
+				84C12CF21A062DE1006D4200 /* sample8.kmz */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		84C12CDF1A0627BB006D4200 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				84C12CE01A0627D1006D4200 /* ziparchive-read-only */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+		84C12CE01A0627D1006D4200 /* ziparchive-read-only */ = {
+			isa = PBXGroup;
+			children = (
+				84C12CE11A0627D1006D4200 /* minizip */,
+				84C12CEB1A0627D1006D4200 /* ZipArchive.h */,
+				84C12CEC1A0627D1006D4200 /* ZipArchive.mm */,
+			);
+			name = "ziparchive-read-only";
+			path = "lib/ziparchive-read-only";
+			sourceTree = "<group>";
+		};
+		84C12CE11A0627D1006D4200 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				84C12CE21A0627D1006D4200 /* crypt.h */,
+				84C12CE31A0627D1006D4200 /* ioapi.c */,
+				84C12CE41A0627D1006D4200 /* ioapi.h */,
+				84C12CE51A0627D1006D4200 /* mztools.c */,
+				84C12CE61A0627D1006D4200 /* mztools.h */,
+				84C12CE71A0627D1006D4200 /* unzip.c */,
+				84C12CE81A0627D1006D4200 /* unzip.h */,
+				84C12CE91A0627D1006D4200 /* zip.c */,
+				84C12CEA1A0627D1006D4200 /* zip.h */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 		84DE928E19F5301800D19747 = {
@@ -177,6 +231,7 @@
 		84DE929919F5301800D19747 /* WG_KML */ = {
 			isa = PBXGroup;
 			children = (
+				84C12CDF1A0627BB006D4200 /* lib */,
 				845713F919F53BEE004D336A /* resources */,
 				84DE929E19F5301800D19747 /* AppDelegate.h */,
 				84DE929F19F5301800D19747 /* AppDelegate.m */,
@@ -310,6 +365,7 @@
 				845713F319F53640004D336A /* OptionsViewController.xib in Resources */,
 				84C12CDC19F9F2EA006D4200 /* sample6.kml in Resources */,
 				8457140119F53C16004D336A /* sample3.kml in Resources */,
+				84C12CF31A062DE1006D4200 /* sample8.kmz in Resources */,
 				84C12CDE19FA5B26006D4200 /* sample7.kml in Resources */,
 				8457140219F53C16004D336A /* sample4.kml in Resources */,
 				8457140319F53C16004D336A /* sample5.kml in Resources */,
@@ -366,12 +422,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C12CF01A0627D1006D4200 /* zip.c in Sources */,
 				845713F419F53640004D336A /* WG_KML.m in Sources */,
 				84DE92A319F5301800D19747 /* ViewController.m in Sources */,
+				84C12CEE1A0627D1006D4200 /* mztools.c in Sources */,
+				84C12CED1A0627D1006D4200 /* ioapi.c in Sources */,
 				84DE92A019F5301800D19747 /* AppDelegate.m in Sources */,
 				845713F219F53640004D336A /* OptionsViewController.m in Sources */,
+				84C12CEF1A0627D1006D4200 /* unzip.c in Sources */,
 				845713F119F53640004D336A /* ColorConverter.m in Sources */,
 				842072EA19F789CB0038E12E /* WG_KMLStyleContainer.m in Sources */,
+				84C12CF11A0627D1006D4200 /* ZipArchive.mm in Sources */,
 				84DE929D19F5301800D19747 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -50,7 +50,7 @@
     [theViewC addLayer:aerialLayer];
     
     [theViewC animateToPosition:MaplyCoordinateMakeWithDegrees(-102.416667, 37.783333) time:1.0];
-    
+
     switch (_option)
     {
         case PopulationGrowthRate:
@@ -73,6 +73,8 @@
             break;
         case RailRoads:
             [self fetchRailRoads];
+        case SFRainRader:
+            [self fetchSFRainRader];
             break;
     }
 }
@@ -97,7 +99,6 @@
     wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"kml"];
     wg_kml.theViewC = theViewC;
     [wg_kml loadicons];
-
 }
 
 - (void) fetchHydroPowerPlants
@@ -140,6 +141,14 @@
     wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample7" ofType:@"kml"];
     wg_kml.theViewC = theViewC;
     [wg_kml loadlines];
+}
+
+- (void) fetchSFRainRader
+{
+    WG_KML *wg_kml = [[WG_KML alloc]init];
+    wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample8" ofType:@"kmz"];
+    [wg_kml loadkmz];
+    [wg_kml loadgroundoverlay];
 }
 
 - (void)globeViewController:(WhirlyGlobeViewController *)viewC didSelect:(NSObject *) selectedObj atLoc:(MaplyCoordinate)coord onScreen:(CGPoint)screenPt

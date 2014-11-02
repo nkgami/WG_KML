@@ -12,8 +12,13 @@
 #import "ColorConverter.h"
 #import <UIKit/UIKit.h>
 #import "WG_KMLStyleContainer.h"
+#import "ZipArchive.h"
 
 @implementation WG_KML
+bool kmzflag = false;
+NSString *kmzDir;
+NSString *kmzmainkml;
+NSMutableArray *overlays;
 -(void)loadicons
 {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
@@ -351,6 +356,80 @@
             }
             else{
                 [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+            }
+        }
+    }
+}
+-(void)loadkmz
+{
+    NSString *zipPath = _filePath;
+    NSString *zipFolder = [@"tmp/" stringByAppendingString:@"unzipkmz"];
+    NSString *outDir = [NSHomeDirectory() stringByAppendingPathComponent:zipFolder];
+    ZipArchive *zip = [[ZipArchive alloc] init];
+    [zip UnzipOpenFile:zipPath];
+    BOOL result = [zip UnzipFileTo:outDir overWrite:true];
+    if(result == YES )
+    {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError *error;
+        NSArray *list = [fileManager contentsOfDirectoryAtPath:outDir error:&error];
+        for (NSString *path in list) {
+            if([path rangeOfString:@".kml"].location != NSNotFound){
+                kmzDir = [NSString stringWithFormat:@"%@/",outDir];
+                kmzflag = true;
+                kmzmainkml = [kmzDir stringByAppendingString:path];
+            }
+        }
+    }
+}
+-(void)loadgroundoverlay
+{
+    NSError *error;
+    NSString *text;
+    overlays = [NSMutableArray array];
+    if(kmzflag){
+        text = [[NSString alloc] initWithContentsOfFile:kmzmainkml
+                                               encoding:NSUTF8StringEncoding error:&error];
+        //NSLog(@"%@",text);
+    }
+    else{
+        text = [[NSString alloc] initWithContentsOfFile:_filePath
+                                               encoding:NSUTF8StringEncoding error:&error];
+    }
+    //parsing kml
+    KMLRoot *root = [KMLParser parseKMLWithString:text];
+    //get GroundOverlay element
+    KMLAbstractContainer *container = (KMLAbstractContainer *)(root.feature);
+    [self getOverlay:container type:@"Ground"];
+    for(NSObject *aobj in overlays){
+        KMLGroundOverlay *goverlay = (KMLGroundOverlay *)aobj;
+        CGFloat north, south, east, west;
+        north = goverlay.latLonBox.north;
+        south = goverlay.latLonBox.south;
+        east = goverlay.latLonBox.east;
+        west = goverlay.latLonBox.west;
+        NSString *imagepath = goverlay.icon.href;
+        UIImage *imgImage = [[UIImage alloc]
+                             initWithData:[NSData dataWithContentsOfURL:
+                                           [NSURL URLWithString:imagepath]]];
+    }
+}
+- (void)getOverlay:(KMLAbstractContainer *)container type:(NSString *)deftype
+{
+    for(NSObject *feature0 in container.features){
+        if([feature0 isKindOfClass:[KMLFolder class]]){
+            [self getOverlay:(KMLAbstractContainer *)feature0 type:deftype];
+        }
+        else{
+            if([deftype isEqualToString:@"Ground"]){
+                if([feature0 isKindOfClass:[KMLGroundOverlay class]]){
+                    [overlays addObject:feature0];
+                }
+            }
+            else if([deftype isEqualToString:@"Screen"]){
+                if([feature0 isKindOfClass:[KMLScreenOverlay class]]){
+                    [overlays addObject:feature0];
+                }
             }
         }
     }

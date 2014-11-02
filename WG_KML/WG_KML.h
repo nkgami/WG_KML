@@ -15,4 +15,6 @@
 -(void)loadicons;
 -(void)loadpolys;
 -(void)loadlines;
+-(void)loadgroundoverlay;
+-(void)loadkmz;
 @end

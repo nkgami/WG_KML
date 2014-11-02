@@ -12,6 +12,8 @@
 	<dict>
 		<key>2335B30FFEEA776570BADA6B4F70FAB180B7D263</key>
 		<string>github.com:nkgami/WG_KML.git</string>
+		<key>d527bfd2-f195-11dd-984d-ab748d24aa7e++505</key>
+		<string>http://ziparchive.googlecode.com/svn/trunk</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>WG_KML.xcworkspace</string>
@@ -19,6 +21,13 @@
 	<dict>
 		<key>2335B30FFEEA776570BADA6B4F70FAB180B7D263</key>
 		<string>..</string>
+		<key>d527bfd2-f195-11dd-984d-ab748d24aa7e++505</key>
+		<string>../WG_KML/lib/ziparchive-read-only</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>d527bfd2-f195-11dd-984d-ab748d24aa7e++505</key>
+		<string>http://ziparchive.googlecode.com/svn</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github.com:nkgami/WG_KML.git</string>
@@ -35,6 +44,14 @@
 			<string>2335B30FFEEA776570BADA6B4F70FAB180B7D263</string>
 			<key>IDESourceControlWCCName</key>
 			<string>WG_KML</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>d527bfd2-f195-11dd-984d-ab748d24aa7e++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ziparchive-read-only</string>
 		</dict>
 	</array>
 </dict>

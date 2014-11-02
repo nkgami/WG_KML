@@ -39,7 +39,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,6 +66,9 @@
             break;
         case 6:
             cell.textLabel.text = @"RailRoads";
+            break;
+        case 7:
+            cell.textLabel.text = @"SFRainRader";
             break;
         default:
             break;
