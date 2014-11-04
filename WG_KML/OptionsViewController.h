@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum {PopulationGrowthRate, NulcearPowerPlants, HydroPowerPlants, WindPowerPlants_DEN, NuclearPowerPlants_JPN, Sea_Level_Trends, RailRoads, SFRainRader} OptionType;
+typedef enum {PopulationGrowthRate_Polygon, NulcearPowerPlants_Icon, HydroPowerPlants_Icon, WindPowerPlants_DEN_Icon, NuclearPowerPlants_JPN_Icon, Sea_Level_Trends_Icon, RailRoads_GBR_UKR_LineString, SFRainRadar_GroundOverlay} OptionType;
 
 @interface OptionsViewController : UITableViewController
 

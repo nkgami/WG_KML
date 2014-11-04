@@ -46,34 +46,34 @@
     tileSource.cacheDir = aerialTtileCacheDir;
     aerialLayer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
     
-    
     [theViewC addLayer:aerialLayer];
     
     [theViewC animateToPosition:MaplyCoordinateMakeWithDegrees(-102.416667, 37.783333) time:1.0];
-
+    
     switch (_option)
     {
-        case PopulationGrowthRate:
+        case PopulationGrowthRate_Polygon:
             [self fetchPopulationGrowthRate];
             break;
-        case NulcearPowerPlants:
+        case NulcearPowerPlants_Icon:
             [self fetchNuclearPowerPlants];
             break;
-        case HydroPowerPlants:
+        case HydroPowerPlants_Icon:
             [self fetchHydroPowerPlants];
             break;
-        case WindPowerPlants_DEN:
+        case WindPowerPlants_DEN_Icon:
             [self fetchWindPowerPlants_DEN];
             break;
-        case NuclearPowerPlants_JPN:
+        case NuclearPowerPlants_JPN_Icon:
             [self fetchNuclearPowerPlants_JPN];
             break;
-        case Sea_Level_Trends:
+        case Sea_Level_Trends_Icon:
             [self fetchSea_Level_Trends];
             break;
-        case RailRoads:
+        case RailRoads_GBR_UKR_LineString:
             [self fetchRailRoads];
-        case SFRainRader:
+            break;
+        case SFRainRadar_GroundOverlay:
             [self fetchSFRainRader];
             break;
     }
@@ -147,6 +147,7 @@
 {
     WG_KML *wg_kml = [[WG_KML alloc]init];
     wg_kml.filePath = [[NSBundle mainBundle] pathForResource:@"sample8" ofType:@"kmz"];
+    wg_kml.theViewC = theViewC;
     [wg_kml loadkmz];
     [wg_kml loadgroundoverlay];
 }

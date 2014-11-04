@@ -47,28 +47,28 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mycell"];
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = @"PopulationGrowthRate";
+            cell.textLabel.text = @"PopulationGrowthRate_Polygon";
             break;
         case 1:
-            cell.textLabel.text = @"NuclearPowerPlants";
+            cell.textLabel.text = @"NuclearPowerPlants_Icon";
             break;
         case 2:
-            cell.textLabel.text = @"HydroPowerPlants";
+            cell.textLabel.text = @"HydroPowerPlants_Icon";
             break;
         case 3:
-            cell.textLabel.text = @"WindPowerPlants_DEN";
+            cell.textLabel.text = @"WindPowerPlants_DEN_Icon";
             break;
         case 4:
-            cell.textLabel.text = @"NuclearPowerPlants_JPN";
+            cell.textLabel.text = @"NuclearPowerPlants_JPN_Icon";
             break;
         case 5:
-            cell.textLabel.text = @"Sea_Level_Trends";
+            cell.textLabel.text = @"Sea_Level_Trends_Icon";
             break;
         case 6:
-            cell.textLabel.text = @"RailRoads";
+            cell.textLabel.text = @"RailRoads_GBR_UKR_LineString";
             break;
         case 7:
-            cell.textLabel.text = @"SFRainRader";
+            cell.textLabel.text = @"SFRainRadar_GroundOverlay";
             break;
         default:
             break;

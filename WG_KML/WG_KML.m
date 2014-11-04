@@ -412,6 +412,11 @@ NSMutableArray *overlays;
         UIImage *imgImage = [[UIImage alloc]
                              initWithData:[NSData dataWithContentsOfURL:
                                            [NSURL URLWithString:imagepath]]];
+        MaplySticker *mstick = [[MaplySticker alloc] init];
+        mstick.image = imgImage;
+        mstick.ll = MaplyCoordinateMakeWithDegrees(west, south);
+        mstick.ur = MaplyCoordinateMakeWithDegrees(east, north);
+        [_theViewC addStickers:@[mstick] desc:nil];
     }
 }
 - (void)getOverlay:(KMLAbstractContainer *)container type:(NSString *)deftype
