@@ -1,21 +1,21 @@
 //
-//  OptionsViewController.m
+//  ConfigViewController.m
 //  WG_KML
 //
-//  Created by Hiroki Nakagami on 2014/10/11.
-//  Copyright (c) 2014 Hiroki Nakagami. All rights reserved.
+//  Created by Hiroki Nakagami on 2014/11/07.
+//  Copyright (c) 2014年 Hiroki Nakagami. All rights reserved.
 //
 
-#import "OptionsViewController.h"
-#import "ViewController.h"
+#import "ConfigViewController.h"
 
-@interface OptionsViewController ()
+@interface ConfigViewController ()
 
 @end
 
-@implementation OptionsViewController
+@implementation ConfigViewController
 
 - (void)viewDidLoad {
+    _selectedIndex = -1;
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -39,39 +39,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 9;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mycell"];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mycell2"];
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = @"PopulationGrowthRate_Polygon";
+            cell.textLabel.text = @"Icon";
             break;
         case 1:
-            cell.textLabel.text = @"NuclearPowerPlants_Icon";
+            cell.textLabel.text = @"LineString";
             break;
         case 2:
-            cell.textLabel.text = @"HydroPowerPlants_Icon";
+            cell.textLabel.text = @"Polygon";
             break;
         case 3:
-            cell.textLabel.text = @"WindPowerPlants_DEN_Icon";
-            break;
-        case 4:
-            cell.textLabel.text = @"NuclearPowerPlants_JPN_Icon";
-            break;
-        case 5:
-            cell.textLabel.text = @"Sea_Level_Trends_Icon";
-            break;
-        case 6:
-            cell.textLabel.text = @"RailRoads_GBR_UKR_LineString";
-            break;
-        case 7:
-            cell.textLabel.text = @"SFRainRadar_GroundOverlay";
-            break;
-        case 8:
-            cell.textLabel.text = @"KMLfromURL";
+            cell.textLabel.text = @"GroundOverlay";
             break;
         default:
             break;
@@ -79,6 +64,15 @@
     return cell;
 }
 
+/*
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    // Configure the cell...
+    
+    return cell;
+}
+*/
 
 /*
 // Override to support conditional editing of the table view.
@@ -120,13 +114,7 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ViewController *globeViewC = [[ViewController alloc]init];
-    globeViewC.option = (int)indexPath.row;
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:globeViewC animated:YES];
+    _selectedIndex = (int)indexPath.row;
 }
 
 

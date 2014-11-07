@@ -17,4 +17,5 @@
 -(void)loadlines;
 -(void)loadgroundoverlay;
 -(void)loadkmz;
+-(int)download:(NSString *)surl;
 @end

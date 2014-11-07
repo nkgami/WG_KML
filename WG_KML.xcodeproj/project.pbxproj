@@ -25,6 +25,8 @@
 		84C12CF01A0627D1006D4200 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CE91A0627D1006D4200 /* zip.c */; };
 		84C12CF11A0627D1006D4200 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84C12CEC1A0627D1006D4200 /* ZipArchive.mm */; };
 		84C12CF31A062DE1006D4200 /* sample8.kmz in Resources */ = {isa = PBXBuildFile; fileRef = 84C12CF21A062DE1006D4200 /* sample8.kmz */; };
+		84C12D031A0CF024006D4200 /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C12D011A0CF024006D4200 /* ConfigViewController.m */; };
+		84C12D041A0CF024006D4200 /* ConfigViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C12D021A0CF024006D4200 /* ConfigViewController.xib */; };
 		84DE929D19F5301800D19747 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929C19F5301800D19747 /* main.m */; };
 		84DE92A019F5301800D19747 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE929F19F5301800D19747 /* AppDelegate.m */; };
 		84DE92A319F5301800D19747 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DE92A219F5301800D19747 /* ViewController.m */; };
@@ -84,6 +86,9 @@
 		84C12CEB1A0627D1006D4200 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		84C12CEC1A0627D1006D4200 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		84C12CF21A062DE1006D4200 /* sample8.kmz */ = {isa = PBXFileReference; lastKnownFileType = file; name = sample8.kmz; path = resources/sample8.kmz; sourceTree = "<group>"; };
+		84C12D001A0CF024006D4200 /* ConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigViewController.h; sourceTree = "<group>"; };
+		84C12D011A0CF024006D4200 /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
+		84C12D021A0CF024006D4200 /* ConfigViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigViewController.xib; sourceTree = "<group>"; };
 		84DE929719F5301800D19747 /* WG_KML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WG_KML.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DE929B19F5301800D19747 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DE929C19F5301800D19747 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -235,6 +240,9 @@
 				845713F919F53BEE004D336A /* resources */,
 				84DE929E19F5301800D19747 /* AppDelegate.h */,
 				84DE929F19F5301800D19747 /* AppDelegate.m */,
+				84C12D001A0CF024006D4200 /* ConfigViewController.h */,
+				84C12D011A0CF024006D4200 /* ConfigViewController.m */,
+				84C12D021A0CF024006D4200 /* ConfigViewController.xib */,
 				84DE92A119F5301800D19747 /* ViewController.h */,
 				84DE92A219F5301800D19747 /* ViewController.m */,
 				845713EA19F53640004D336A /* ColorConverter.h */,
@@ -363,6 +371,7 @@
 			files = (
 				84DE92A619F5301800D19747 /* Main.storyboard in Resources */,
 				845713F319F53640004D336A /* OptionsViewController.xib in Resources */,
+				84C12D041A0CF024006D4200 /* ConfigViewController.xib in Resources */,
 				84C12CDC19F9F2EA006D4200 /* sample6.kml in Resources */,
 				8457140119F53C16004D336A /* sample3.kml in Resources */,
 				84C12CF31A062DE1006D4200 /* sample8.kmz in Resources */,
@@ -426,6 +435,7 @@
 				845713F419F53640004D336A /* WG_KML.m in Sources */,
 				84DE92A319F5301800D19747 /* ViewController.m in Sources */,
 				84C12CEE1A0627D1006D4200 /* mztools.c in Sources */,
+				84C12D031A0CF024006D4200 /* ConfigViewController.m in Sources */,
 				84C12CED1A0627D1006D4200 /* ioapi.c in Sources */,
 				84DE92A019F5301800D19747 /* AppDelegate.m in Sources */,
 				845713F219F53640004D336A /* OptionsViewController.m in Sources */,

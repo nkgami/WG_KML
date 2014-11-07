@@ -24,7 +24,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //ViewController *viewC = [[ViewController alloc] init];
     OptionsViewController *viewC = [[OptionsViewController alloc] initWithNibName:@"OptionsViewController" bundle:[NSBundle mainBundle]];
     navC = [[UINavigationController alloc] initWithRootViewController:viewC];
     

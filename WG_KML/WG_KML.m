@@ -24,7 +24,14 @@ NSMutableArray *overlays;
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     NSMutableDictionary *iconcache = [NSMutableDictionary dictionary];
     NSError *error;
-    NSString *text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    NSString *text;
+    if(kmzflag){
+        text = [[NSString alloc] initWithContentsOfFile:kmzmainkml encoding:NSUTF8StringEncoding error:&error];
+    }
+    else{
+        text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    }
+    
     //parsing kml
     KMLRoot *root = [KMLParser parseKMLWithString:text];
     //get style property for each style objectID
@@ -93,7 +100,6 @@ NSMutableArray *overlays;
         else{
             color = nil;
         }
-
         //set png image
         UIImage *pngImage;
         if([iconcache objectForKey:pngpath] == nil){
@@ -137,7 +143,13 @@ NSMutableArray *overlays;
 {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     NSError *error;
-    NSString *text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    NSString *text;
+    if(kmzflag){
+        text = [[NSString alloc] initWithContentsOfFile:kmzmainkml encoding:NSUTF8StringEncoding error:&error];
+    }
+    else{
+        text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    }
     //parsing kml
     KMLRoot *root = [KMLParser parseKMLWithString:text];
     //get style property for each style objectID
@@ -253,7 +265,13 @@ NSMutableArray *overlays;
 {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     NSError *error;
-    NSString *text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    NSString *text;
+    if(kmzflag){
+        text = [[NSString alloc] initWithContentsOfFile:kmzmainkml encoding:NSUTF8StringEncoding error:&error];
+    }
+    else{
+        text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
+    }
     //parsing kml
     KMLRoot *root = [KMLParser parseKMLWithString:text];
     //get style property for each style objectID
@@ -374,7 +392,7 @@ NSMutableArray *overlays;
         NSError *error;
         NSArray *list = [fileManager contentsOfDirectoryAtPath:outDir error:&error];
         for (NSString *path in list) {
-            if([path rangeOfString:@".kml"].location != NSNotFound){
+            if([[path substringFromIndex:([path length] - 4)] isEqualToString:@".kml"]){
                 kmzDir = [NSString stringWithFormat:@"%@/",outDir];
                 kmzflag = true;
                 kmzmainkml = [kmzDir stringByAppendingString:path];
@@ -390,7 +408,6 @@ NSMutableArray *overlays;
     if(kmzflag){
         text = [[NSString alloc] initWithContentsOfFile:kmzmainkml
                                                encoding:NSUTF8StringEncoding error:&error];
-        //NSLog(@"%@",text);
     }
     else{
         text = [[NSString alloc] initWithContentsOfFile:_filePath
@@ -438,5 +455,62 @@ NSMutableArray *overlays;
             }
         }
     }
+}
+- (int)download:(NSString *)surl
+{
+    NSString *downfile;
+    if([[surl substringFromIndex:([surl length] - 4)] isEqualToString:@".kml"]){
+        downfile = @"download.kml";
+    }
+    else if([[surl substringFromIndex:([surl length] - 4)] isEqualToString:@".kmz"]){
+        downfile = @"download.kmz";
+        kmzflag = true;
+    }
+    else{
+        UIAlertView *alert = [
+                              [UIAlertView alloc]
+                              initWithTitle : @"RequestError"
+                              message : @"please input kml or kmz file."
+                              delegate : nil
+                              cancelButtonTitle : @"OK"
+                              otherButtonTitles : nil
+                              ];
+        [alert show];
+        return -1;
+    }
+    NSString *dPath = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
+    NSString *fPath = [[dPath stringByAppendingPathComponent:downfile] stringByStandardizingPath];
+    NSURL *url = [NSURL URLWithString:surl];
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSURLResponse *res = nil;
+    NSError *err = nil;
+    NSData *data = [
+                    NSURLConnection
+                    sendSynchronousRequest : req
+                    returningResponse : &res
+                    error : &err
+                    ];
+    NSString *err_str = [err localizedDescription];
+    if (0<[err_str length]) {
+        UIAlertView *alert = [
+                              [UIAlertView alloc]
+                              initWithTitle : @"RequestError"
+                              message : err_str
+                              delegate : nil
+                              cancelButtonTitle : @"OK"
+                              otherButtonTitles : nil
+                              ];
+        [alert show];
+        return -1;
+    }
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm createFileAtPath:fPath contents:[NSData data] attributes:nil];
+    NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:fPath];
+    [file writeData:data];
+    _filePath = [NSString stringWithString:fPath];
+    if(kmzflag){
+        [self loadkmz];
+    }
+    return 0;
 }
 @end

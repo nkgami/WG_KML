@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "WhirlyGlobeComponent.h"
 #import "OptionsViewController.h"
+#import "ConfigViewController.h"
 
-@interface ViewController : UIViewController <WhirlyGlobeViewControllerDelegate>
+@interface ViewController : UIViewController <WhirlyGlobeViewControllerDelegate,UIPopoverControllerDelegate>
+{
+    UIPopoverController *popControl;
+}
 
 @property OptionType option;
 
