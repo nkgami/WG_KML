@@ -30,6 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self cleantmp];
     // Do any additional setup after loading the view, typically from a nib.
     configViewC = [[ConfigViewController alloc] initWithNibName:@"ConfigViewController" bundle:nil];
     
@@ -245,6 +247,10 @@
             [wg_kml loadgroundoverlay];
             configViewC.selectedIndex = -1;
             break;
+        case 4:
+            [wg_kml removeall];
+            configViewC.selectedIndex = -1;
+            break;
         default:
             break;
     }
@@ -272,8 +278,25 @@
             [wg_kml loadgroundoverlay];
             configViewC.selectedIndex = -1;
             break;
+        case 4:
+            [wg_kml removeall];
+            configViewC.selectedIndex = -1;
+            break;
         default:
             break;
+    }
+}
+
+-(void)cleantmp
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *dPath = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
+    NSError *error;
+    NSArray *list = [fm contentsOfDirectoryAtPath:dPath error:&error];
+    for (NSString *path in list) {
+        NSString *fPath = [[dPath stringByAppendingString:@"/"]
+                           stringByAppendingString:path];
+        [fm removeItemAtPath:fPath error:&error];
     }
 }
 

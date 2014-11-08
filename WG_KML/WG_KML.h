@@ -10,12 +10,20 @@
 #import "WhirlyGlobeComponent.h"
 
 @interface WG_KML : NSObject
+{
+    bool kmzflag;
+    NSString *kmzDir;
+    NSString *kmzmainkml;
+    NSMutableArray *overlays;
+    NSMutableArray *mOjects;
+}
 @property NSString *filePath;
 @property WhirlyGlobeViewController *theViewC;
 -(void)loadicons;
 -(void)loadpolys;
 -(void)loadlines;
 -(void)loadgroundoverlay;
--(void)loadkmz;
+-(int)loadkmz;
 -(int)download:(NSString *)surl;
+-(void)removeall;
 @end

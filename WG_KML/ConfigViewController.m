@@ -39,7 +39,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -47,21 +47,29 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mycell2"];
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = @"Icon";
+            cell.textLabel.text = @"Add Icon";
             break;
         case 1:
-            cell.textLabel.text = @"LineString";
+            cell.textLabel.text = @"Add LineString";
             break;
         case 2:
-            cell.textLabel.text = @"Polygon";
+            cell.textLabel.text = @"Add Polygon";
             break;
         case 3:
-            cell.textLabel.text = @"GroundOverlay";
+            cell.textLabel.text = @"Add GroundOverlay";
+            break;
+        case 4:
+            cell.textLabel.text = @"Rmove all Objects";
             break;
         default:
             break;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor colorWithHue:0.61 saturation:0.09 brightness:0.99 alpha:1.0];
 }
 
 /*

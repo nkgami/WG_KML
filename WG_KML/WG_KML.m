@@ -13,12 +13,17 @@
 #import <UIKit/UIKit.h>
 #import "WG_KMLStyleContainer.h"
 #import "ZipArchive.h"
+#import "NSStringHash.h"
 
 @implementation WG_KML
-bool kmzflag = false;
-NSString *kmzDir;
-NSString *kmzmainkml;
-NSMutableArray *overlays;
+- (id)init
+{
+    if (self = [super init]) {
+        mOjects = [NSMutableArray array];
+        kmzflag = false;
+    }
+    return self;
+}
 -(void)loadicons
 {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
@@ -31,7 +36,6 @@ NSMutableArray *overlays;
     else{
         text = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:&error];
     }
-    
     //parsing kml
     KMLRoot *root = [KMLParser parseKMLWithString:text];
     //get style property for each style objectID
@@ -103,7 +107,7 @@ NSMutableArray *overlays;
         //set png image
         UIImage *pngImage;
         if([iconcache objectForKey:pngpath] == nil){
-            pngImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:pngpath]]];
+            pngImage = [self load_img:pngpath];
             if(pngImage != nil){
                 [iconcache setObject:pngImage forKey:pngpath];
             }
@@ -118,10 +122,13 @@ NSMutableArray *overlays;
                 altitude = ((KMLPoint *)x).coordinate.altitude;
             }
         }
-        else{
+        else if([place.geometry isKindOfClass:[KMLPoint class]]){
             latitude = ((KMLPoint *)place.geometry).coordinate.latitude;
             longitude = ((KMLPoint *)place.geometry).coordinate.longitude;
             altitude = ((KMLPoint *)place.geometry).coordinate.altitude;
+        }
+        else{
+            continue;
         }
         // Create a Screen Marker
         MaplyScreenMarker *marker_p = [[MaplyScreenMarker alloc] init];
@@ -136,7 +143,9 @@ NSMutableArray *overlays;
             marker_p.color = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
         }
         marker_p.selectable = YES;
-        [_theViewC addScreenMarkers:@[marker_p] desc:nil mode:MaplyThreadAny];
+        MaplyComponentObject *addobj
+        = [_theViewC addScreenMarkers:@[marker_p] desc:nil mode:MaplyThreadAny];
+        [mOjects addObject:addobj];
     }
 }
 -(void)loadpolys
@@ -202,6 +211,7 @@ NSMutableArray *overlays;
         else{
             color = nil;
         }
+        MaplyComponentObject *addobj;
         if([place.geometry isKindOfClass:[KMLMultiGeometry class]]){
         float latitude = 0,longitude = 0;
             for ( KMLAbstractGeometry *x in ((KMLMultiGeometry *)place.geometry).geometries ) {
@@ -223,13 +233,15 @@ NSMutableArray *overlays;
                         ColorConverter *cv = [[ColorConverter alloc] init];
                         [cv set_str:color];
                         UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
-                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                        addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                          kMaplyFilled:@YES}];
                         //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
+                        [mOjects addObject:addobj];
                     }
                     else{
-                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
+                        addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
                         //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
+                        [mOjects addObject:addobj];
                     }
                 }
             }
@@ -249,13 +261,15 @@ NSMutableArray *overlays;
                 ColorConverter *cv = [[ColorConverter alloc] init];
                 [cv set_str:color];
                 UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
-                [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                           kMaplyFilled:@YES}];
                 //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyColor: cl,kMaplyLoftedPolyHeight:@0.002}];
+                [mOjects addObject:addobj];
             }
             else{
-                [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
+                addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@YES}];
                 //[_theViewC addLoftedPolys:@[sfOutline] key:nil cache:nil desc:@{kMaplyLoftedPolyHeight:@0.002}];
+                [mOjects addObject:addobj];
             }
 
         }
@@ -324,6 +338,7 @@ NSMutableArray *overlays;
         else{
             color = nil;
         }
+        MaplyComponentObject *addobj;
         if([place.geometry isKindOfClass:[KMLMultiGeometry class]]){
             float latitude = 0,longitude = 0;
             for ( KMLAbstractGeometry *x in ((KMLMultiGeometry *)place.geometry).geometries ) {
@@ -345,11 +360,13 @@ NSMutableArray *overlays;
                         ColorConverter *cv = [[ColorConverter alloc] init];
                         [cv set_str:color];
                         UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
-                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                        addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                                   kMaplyFilled:@NO}];
+                        [mOjects addObject:addobj];
                     }
                     else{
-                        [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+                        addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+                        [mOjects addObject:addobj];
                     }
                 }
             }
@@ -369,27 +386,37 @@ NSMutableArray *overlays;
                 ColorConverter *cv = [[ColorConverter alloc] init];
                 [cv set_str:color];
                 UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
-                [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
+                addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                           kMaplyFilled:@NO}];
+                [mOjects addObject:addobj];
             }
             else{
                 [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
+                [mOjects addObject:addobj];
             }
         }
     }
 }
--(void)loadkmz
+-(int)loadkmz
 {
     NSString *zipPath = _filePath;
-    NSString *zipFolder = [@"tmp/" stringByAppendingString:@"unzipkmz"];
+    NSString *outfile = [_filePath MD5Hash];
+    NSString *zipFolder = [@"tmp/" stringByAppendingString:outfile];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
     NSString *outDir = [NSHomeDirectory() stringByAppendingPathComponent:zipFolder];
+    int p = 0;
+    while([fileManager fileExistsAtPath:outDir]){
+        zipFolder = [[_filePath stringByAppendingString:
+                      [NSString stringWithFormat:@"%d", p]] MD5Hash];
+        outDir = [NSHomeDirectory() stringByAppendingPathComponent:zipFolder];
+        p += 1;
+    }
     ZipArchive *zip = [[ZipArchive alloc] init];
     [zip UnzipOpenFile:zipPath];
     BOOL result = [zip UnzipFileTo:outDir overWrite:true];
     if(result == YES )
     {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSError *error;
         NSArray *list = [fileManager contentsOfDirectoryAtPath:outDir error:&error];
         for (NSString *path in list) {
             if([[path substringFromIndex:([path length] - 4)] isEqualToString:@".kml"]){
@@ -398,6 +425,12 @@ NSMutableArray *overlays;
                 kmzmainkml = [kmzDir stringByAppendingString:path];
             }
         }
+    }
+    if(kmzflag == false){
+        return -1;
+    }
+    else{
+        return 0;
     }
 }
 -(void)loadgroundoverlay
@@ -426,14 +459,14 @@ NSMutableArray *overlays;
         east = goverlay.latLonBox.east;
         west = goverlay.latLonBox.west;
         NSString *imagepath = goverlay.icon.href;
-        UIImage *imgImage = [[UIImage alloc]
-                             initWithData:[NSData dataWithContentsOfURL:
-                                           [NSURL URLWithString:imagepath]]];
+        UIImage *imgImage = [self load_img:imagepath];
         MaplySticker *mstick = [[MaplySticker alloc] init];
         mstick.image = imgImage;
         mstick.ll = MaplyCoordinateMakeWithDegrees(west, south);
         mstick.ur = MaplyCoordinateMakeWithDegrees(east, north);
-        [_theViewC addStickers:@[mstick] desc:nil];
+        MaplyComponentObject *addobj;
+        addobj = [_theViewC addStickers:@[mstick] desc:nil];
+        [mOjects addObject:addobj];
     }
 }
 - (void)getOverlay:(KMLAbstractContainer *)container type:(NSString *)deftype
@@ -459,27 +492,19 @@ NSMutableArray *overlays;
 - (int)download:(NSString *)surl
 {
     NSString *downfile;
-    if([[surl substringFromIndex:([surl length] - 4)] isEqualToString:@".kml"]){
-        downfile = @"download.kml";
-    }
-    else if([[surl substringFromIndex:([surl length] - 4)] isEqualToString:@".kmz"]){
-        downfile = @"download.kmz";
-        kmzflag = true;
-    }
-    else{
-        UIAlertView *alert = [
-                              [UIAlertView alloc]
-                              initWithTitle : @"RequestError"
-                              message : @"please input kml or kmz file."
-                              delegate : nil
-                              cancelButtonTitle : @"OK"
-                              otherButtonTitles : nil
-                              ];
-        [alert show];
-        return -1;
-    }
+    downfile = [[surl MD5Hash] stringByAppendingString:@".kmx"];
+    NSFileManager *fm = [NSFileManager defaultManager];
     NSString *dPath = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
     NSString *fPath = [[dPath stringByAppendingPathComponent:downfile] stringByStandardizingPath];
+    int p = 0;
+    while([fm fileExistsAtPath:fPath]){
+        downfile = [[[surl stringByAppendingString:
+                     [NSString stringWithFormat:@"%d", p]] MD5Hash]
+                    stringByAppendingString:@".kmx"];
+        dPath = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
+        fPath = [[dPath stringByAppendingPathComponent:downfile] stringByStandardizingPath];
+        p += 1;
+    }
     NSURL *url = [NSURL URLWithString:surl];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
     NSURLResponse *res = nil;
@@ -503,14 +528,63 @@ NSMutableArray *overlays;
         [alert show];
         return -1;
     }
-    NSFileManager *fm = [NSFileManager defaultManager];
     [fm createFileAtPath:fPath contents:[NSData data] attributes:nil];
     NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:fPath];
     [file writeData:data];
     _filePath = [NSString stringWithString:fPath];
-    if(kmzflag){
-        [self loadkmz];
+    NSError *error;
+    NSString *text = [[NSString alloc] initWithContentsOfFile:_filePath
+                                                     encoding:NSUTF8StringEncoding error:&error];
+    if([error localizedDescription].length > 0){//kmz
+        if([self loadkmz] != 0){
+            UIAlertView *alert = [
+                                  [UIAlertView alloc]
+                                  initWithTitle : @"RequestError"
+                                  message : @"please input kml or kmz file."
+                                  delegate : nil
+                                  cancelButtonTitle : @"OK"
+                                  otherButtonTitles : nil
+                                  ];
+            [alert show];
+            return -1;
+        }
+    }
+    else if([text rangeOfString:@"<?xml"].location == NSNotFound ||
+       [text rangeOfString:@"<kml"].location == NSNotFound){
+        UIAlertView *alert = [
+                              [UIAlertView alloc]
+                              initWithTitle : @"RequestError"
+                              message : @"please input kml or kmz file."
+                              delegate : nil
+                              cancelButtonTitle : @"OK"
+                              otherButtonTitles : nil
+                              ];
+        [alert show];
+        return -1;
     }
     return 0;
+}
+-(void)removeall
+{
+    [_theViewC removeObjects:mOjects];
+    [mOjects removeAllObjects];
+}
+-(UIImage *)load_img:(NSString *)href_url
+{
+    UIImage *img;
+    if([[href_url substringToIndex:7] isEqualToString:@"http://"]){
+        img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:href_url]]];
+    }
+    else if([[href_url substringToIndex:8] isEqualToString:@"https://"]){
+        img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:href_url]]];
+    }
+    else if(kmzflag){
+        NSString *filepath = [kmzDir stringByAppendingString:href_url];
+        img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath]];
+    }
+    else{
+        img = nil;
+    }
+    return img;
 }
 @end
