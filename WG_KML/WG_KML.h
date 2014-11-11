@@ -15,7 +15,11 @@
     NSString *kmzDir;
     NSString *kmzmainkml;
     NSMutableArray *overlays;
+    NSMutableArray *networklinks;
     NSMutableArray *mOjects;
+    bool root_flag;
+    NSMutableArray *childKml;
+    NSMutableDictionary *styles;
 }
 @property NSString *filePath;
 @property WhirlyGlobeViewController *theViewC;
@@ -26,4 +30,6 @@
 -(int)loadkmz;
 -(int)download:(NSString *)surl;
 -(void)removeall;
+-(void)loadnetworklinks;
+-(id)init;
 @end

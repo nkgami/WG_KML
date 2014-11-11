@@ -26,6 +26,7 @@
     NSUserDefaults *ud;
     ConfigViewController *configViewC;
     WG_KML *wg_kml;
+    UIActivityIndicatorView *indicator;
 }
 
 - (void)viewDidLoad {
@@ -232,18 +233,22 @@
     [self.navigationController popToViewController:self animated:YES];
     switch (configViewC.selectedIndex) {
         case 0:
+            [wg_kml loadnetworklinks];
             [wg_kml loadicons];
             configViewC.selectedIndex = -1;
             break;
         case 1:
+            [wg_kml loadnetworklinks];
             [wg_kml loadlines];
             configViewC.selectedIndex = -1;
             break;
         case 2:
+            [wg_kml loadnetworklinks];
             [wg_kml loadpolys];
             configViewC.selectedIndex = -1;
             break;
         case 3:
+            [wg_kml loadnetworklinks];
             [wg_kml loadgroundoverlay];
             configViewC.selectedIndex = -1;
             break;
@@ -263,18 +268,22 @@
     [self.navigationController popToViewController:self animated:YES];
     switch (configViewC.selectedIndex) {
         case 0:
+            [wg_kml loadnetworklinks];
             [wg_kml loadicons];
             configViewC.selectedIndex = -1;
             break;
         case 1:
+            [wg_kml loadnetworklinks];
             [wg_kml loadlines];
             configViewC.selectedIndex = -1;
             break;
         case 2:
+            [wg_kml loadnetworklinks];
             [wg_kml loadpolys];
             configViewC.selectedIndex = -1;
             break;
         case 3:
+            [wg_kml loadnetworklinks];
             [wg_kml loadgroundoverlay];
             configViewC.selectedIndex = -1;
             break;
@@ -299,5 +308,4 @@
         [fm removeItemAtPath:fPath error:&error];
     }
 }
-
 @end
