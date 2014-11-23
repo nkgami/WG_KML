@@ -572,12 +572,14 @@
 					"\"$(SRCROOT)/Pods/iOS-KML-Framework/\"",
 				);
 				INFOPLIST_FILE = WG_KML/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/nkgami/Workspace/xcode/WG_KML/WhirlyGlobe_Maply_Distribution_2_3/WhirlyGlobeMaplyComponent.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -594,12 +596,14 @@
 					"\"$(SRCROOT)/Pods/iOS-KML-Framework/\"",
 				);
 				INFOPLIST_FILE = WG_KML/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/nkgami/Workspace/xcode/WG_KML/WhirlyGlobe_Maply_Distribution_2_3/WhirlyGlobeMaplyComponent.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

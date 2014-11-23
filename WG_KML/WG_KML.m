@@ -55,23 +55,9 @@
 
         //set styles
         WG_KMLStyleContainer *pstyle = NULL;
-        if(place.styleUrl == nil || place.styleUrl == NULL){
+        pstyle = [self setStyle:place];
+        if(pstyle == NULL){
             pstyle = defaultstyle;
-        }
-        else if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
-           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
-            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
-                pstyle = [styles objectForKey:
-                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
-                
-            }
-            else{
-                pstyle = [styles objectForKey:place.styleUrl];
-            }
-        }
-        else{
-            //load from URL
-            //need another logic
         }
         float iconscale;
         NSString *pngpath;
@@ -182,23 +168,9 @@
         KMLPlacemark *place = object;
         //set styles
         WG_KMLStyleContainer *pstyle = NULL;
-        if(place.styleUrl == nil || place.styleUrl == NULL){
+        pstyle = [self setStyle:place];
+        if(pstyle == NULL){
             pstyle = defaultstyle;
-        }
-        if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
-           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
-            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
-                pstyle = [styles objectForKey:
-                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
-                
-            }
-            else{
-                pstyle = [styles objectForKey:place.styleUrl];
-            }
-        }
-        else{
-            //load from URL
-            //need another logic
         }
         NSString *color;
         if(pstyle != NULL && pstyle.poly.color != nil){
@@ -295,23 +267,9 @@
         KMLPlacemark *place = object;
         //set styles
         WG_KMLStyleContainer *pstyle = NULL;
-        if(place.styleUrl == nil || place.styleUrl == NULL){
+        pstyle = [self setStyle:place];
+        if(pstyle == NULL){
             pstyle = defaultstyle;
-        }
-        if([place.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
-           [place.styleUrl rangeOfString:@"https://"].location == NSNotFound){
-            if(![[place.styleUrl substringToIndex:1] isEqualToString:@"#"]){
-                pstyle = [styles objectForKey:
-                          [NSString stringWithFormat:@"#%@",place.styleUrl]];
-                
-            }
-            else{
-                pstyle = [styles objectForKey:place.styleUrl];
-            }
-        }
-        else{
-            //load from URL
-            //need another logic
         }
         NSString *color;
         if(pstyle != NULL && pstyle.line.color != nil){
@@ -532,11 +490,25 @@
         KMLNetworkLink *nlink = (KMLNetworkLink *)aobj;
         NSLog(@"%@",nlink.link.href);
         if(nlink.link.href != NULL){
-            WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
-            [child download:nlink.link.href];
-            [child loadnetworklinks];
-            child.theViewC = _theViewC;
-            [self addChild:child];
+            if(![[nlink.link.href substringToIndex:7] isEqualToString:@"http://"] && kmzflag){
+                WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
+                child.filePath = [kmzDir stringByAppendingString:nlink.link.href];
+                child.theViewC = _theViewC;
+                [self addChild:child];
+            }
+            else if(![[nlink.link.href substringToIndex:8] isEqualToString:@"https://"] && kmzflag){
+                WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
+                child.filePath = [kmzDir stringByAppendingString:nlink.link.href];
+                child.theViewC = _theViewC;
+                [self addChild:child];
+            }
+            else{
+                WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
+                [child download:nlink.link.href];
+                [child loadnetworklinks];
+                child.theViewC = _theViewC;
+                [self addChild:child];
+            }
         }
     }
 }
@@ -695,5 +667,66 @@
         return nil;
     }
     return temp;
+}
+
+-(WG_KMLStyleContainer *)setStyle:(KMLPlacemark *)lplace{
+    //set styles
+    WG_KMLStyleContainer *pstyle = NULL;
+    if(lplace.styleUrl == nil || lplace.styleUrl == NULL){
+        pstyle = NULL;
+    }
+    else if([lplace.styleUrl rangeOfString:@"http://"].location == NSNotFound &&
+            [lplace.styleUrl rangeOfString:@"https://"].location == NSNotFound){
+        if([lplace.styleUrl rangeOfString:@"#"].location != NSNotFound){
+            if([[lplace.styleUrl substringToIndex:1] isEqualToString:@"#"]){
+                pstyle = [styles objectForKey:lplace.styleUrl];
+            }
+            else if (kmzflag){
+                [self getLocalStyle:lplace.styleUrl];
+            }
+        }
+        else{
+            pstyle = [styles objectForKey:
+                      [NSString stringWithFormat:@"#%@",lplace.styleUrl]];
+        }
+    }
+    else{
+        //load from URL
+        //need another logic
+    }
+    return pstyle;
+}
+-(WG_KMLStyleContainer *)getLocalStyle:(NSString *)localurl{
+    WG_KML *l_wg_kml = [[WG_KML alloc] init];
+    NSError *error;
+    NSString *text;
+    
+    NSArray *str_ary = [localurl componentsSeparatedByString:@"#"];
+    NSString *filename = str_ary[0];
+    NSString *objid = [NSString stringWithFormat:@"#%@",str_ary[1]];
+    l_wg_kml.filePath = [kmzDir stringByAppendingString:filename];
+    text = [l_wg_kml getText:error];
+    if(text == nil){
+        return NULL;
+    }
+    //parsing kml
+    KMLRoot *root = [KMLParser parseKMLWithString:text];
+    NSArray *stylesl = root.feature.styleSelectors;
+    if(![stylesl isKindOfClass:[NSArray class]]){
+        return NULL;
+    }
+    for (NSObject *substyle in stylesl){
+        if([substyle isKindOfClass:[KMLStyle class]]){
+            if([((KMLStyle *)substyle).objectID isEqualToString:objid]){
+                WG_KMLStyleContainer *tempstyle = [[WG_KMLStyleContainer alloc] init];
+                [tempstyle setStyles:(KMLStyle *)substyle];
+                return tempstyle;
+            }
+            else{
+                continue;
+            }
+        }
+    }
+    return NULL;
 }
 @end
