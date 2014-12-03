@@ -24,9 +24,10 @@
     MaplyQuadImageTilesLayer * aerialLayer;
     MaplyComponentObject * selectLabelObj;
     NSUserDefaults *ud;
-    ConfigViewController *configViewC;
     WG_KML *wg_kml;
+    ConfigViewController *configViewC;
     UIActivityIndicatorView *indicator;
+    IBOutlet UIActivityIndicatorView *ai;
 }
 
 - (void)viewDidLoad {
@@ -233,27 +234,28 @@
     [self.navigationController popToViewController:self animated:YES];
     switch (configViewC.selectedIndex) {
         case 0:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadicons];
+            [self start_activity];
+            [self load_icon_bg];
             configViewC.selectedIndex = -1;
             break;
         case 1:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadlines];
+            [self start_activity];
+            [self load_lines_bg];
             configViewC.selectedIndex = -1;
             break;
         case 2:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadpolys];
+            [self start_activity];
+            [self load_polys_bg];
             configViewC.selectedIndex = -1;
             break;
         case 3:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadgroundoverlay];
+            [self start_activity];
+            [self load_groundoverlay_bg];
             configViewC.selectedIndex = -1;
             break;
         case 4:
-            [wg_kml removeall];
+            [self start_activity];
+            [self removeall_bg];
             configViewC.selectedIndex = -1;
             break;
         default:
@@ -268,27 +270,28 @@
     [self.navigationController popToViewController:self animated:YES];
     switch (configViewC.selectedIndex) {
         case 0:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadicons];
+            [self start_activity];
+            [self load_icon_bg];
             configViewC.selectedIndex = -1;
             break;
         case 1:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadlines];
+            [self start_activity];
+            [self load_lines_bg];
             configViewC.selectedIndex = -1;
             break;
         case 2:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadpolys];
+            [self start_activity];
+            [self load_polys_bg];
             configViewC.selectedIndex = -1;
             break;
         case 3:
-            [wg_kml loadnetworklinks];
-            [wg_kml loadgroundoverlay];
+            [self start_activity];
+            [self load_groundoverlay_bg];
             configViewC.selectedIndex = -1;
             break;
         case 4:
-            [wg_kml removeall];
+            [self start_activity];
+            [self removeall_bg];
             configViewC.selectedIndex = -1;
             break;
         default:
@@ -307,5 +310,52 @@
                            stringByAppendingString:path];
         [fm removeItemAtPath:fPath error:&error];
     }
+}
+
+-(void)start_activity
+{
+    ai = [[UIActivityIndicatorView alloc] init];
+    ai.frame = CGRectMake(0, 0, 50, 50);
+    ai.center = self.view.center;
+    ai.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [self.view addSubview:ai];
+    [ai startAnimating];
+}
+-(void) stop_activity{
+    [ai stopAnimating];
+}
+-(void)load_icon_bg{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [wg_kml loadnetworklinks];
+        [wg_kml loadicons];
+        [self stop_activity];
+    });
+}
+-(void)load_lines_bg{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [wg_kml loadnetworklinks];
+        [wg_kml loadlines];
+        [self stop_activity];
+    });
+}
+-(void)load_polys_bg{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [wg_kml loadnetworklinks];
+        [wg_kml loadpolys];
+        [self stop_activity];
+    });
+}
+-(void)load_groundoverlay_bg{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [wg_kml loadnetworklinks];
+        [wg_kml loadgroundoverlay];
+        [self stop_activity];
+    });
+}
+-(void)removeall_bg{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [wg_kml removeall];
+        [self stop_activity];
+    });
 }
 @end

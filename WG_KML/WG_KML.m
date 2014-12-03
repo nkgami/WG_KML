@@ -493,12 +493,14 @@
             if(![[nlink.link.href substringToIndex:7] isEqualToString:@"http://"] && kmzflag){
                 WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
                 child.filePath = [kmzDir stringByAppendingString:nlink.link.href];
+                [child loadnetworklinks];
                 child.theViewC = _theViewC;
                 [self addChild:child];
             }
             else if(![[nlink.link.href substringToIndex:8] isEqualToString:@"https://"] && kmzflag){
                 WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];
                 child.filePath = [kmzDir stringByAppendingString:nlink.link.href];
+                [child loadnetworklinks];
                 child.theViewC = _theViewC;
                 [self addChild:child];
             }
@@ -690,9 +692,40 @@
                       [NSString stringWithFormat:@"#%@",lplace.styleUrl]];
         }
     }
-    else{
-        //load from URL
-        //need another logic
+    else{//for url like "http://foo.bar/foo.kml#objid"
+        NSArray *str_ary = [lplace.styleUrl componentsSeparatedByString:@"#"];
+        if(str_ary.count == 2){
+            WG_KML *temp_wg = [[WG_KML alloc] init];
+            [temp_wg download:str_ary[0]];
+            NSError *error;
+            NSString *text;
+            NSString *objid = [NSString stringWithFormat:@"#%@",str_ary[1]];
+            text = [temp_wg getText:error];
+            if(text == nil){
+                return NULL;
+            }
+            //parsing kml
+            KMLRoot *root = [KMLParser parseKMLWithString:text];
+            NSArray *stylesl = root.feature.styleSelectors;
+            if(![stylesl isKindOfClass:[NSArray class]]){
+                return NULL;
+            }
+            for (NSObject *substyle in stylesl){
+                if([substyle isKindOfClass:[KMLStyle class]]){
+                    if([((KMLStyle *)substyle).objectID isEqualToString:objid]){
+                        WG_KMLStyleContainer *tempstyle = [[WG_KMLStyleContainer alloc] init];
+                        [tempstyle setStyles:(KMLStyle *)substyle];
+                        return tempstyle;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+        }
+        else{
+            pstyle = NULL;
+        }
     }
     return pstyle;
 }
