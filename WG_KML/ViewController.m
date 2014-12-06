@@ -27,7 +27,8 @@
     WG_KML *wg_kml;
     ConfigViewController *configViewC;
     UIActivityIndicatorView *indicator;
-    IBOutlet UIActivityIndicatorView *ai;
+    UIActivityIndicatorView *ai;
+    UIProgressView *pv;
 }
 
 - (void)viewDidLoad {
@@ -318,44 +319,61 @@
     ai.frame = CGRectMake(0, 0, 50, 50);
     ai.center = self.view.center;
     ai.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    pv.frame = CGRectMake(0, 0, 200, 10);
+    pv.progress = 0;
+    pv.center = self.view.center;
+    [wg_kml setProgressView:pv];
+    [self.view addSubview:pv];
     [self.view addSubview:ai];
     [ai startAnimating];
 }
 -(void) stop_activity{
-    [ai stopAnimating];
+    [pv removeFromSuperview];
+    [ai removeFromSuperview];
 }
 -(void)load_icon_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml loadnetworklinks];
         [wg_kml loadicons];
-        [self stop_activity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stop_activity];
+        });
     });
 }
 -(void)load_lines_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml loadnetworklinks];
         [wg_kml loadlines];
-        [self stop_activity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stop_activity];
+        });
     });
 }
 -(void)load_polys_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml loadnetworklinks];
         [wg_kml loadpolys];
-        [self stop_activity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stop_activity];
+        });
     });
 }
 -(void)load_groundoverlay_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml loadnetworklinks];
         [wg_kml loadgroundoverlay];
-        [self stop_activity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stop_activity];
+        });
     });
 }
 -(void)removeall_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml removeall];
-        [self stop_activity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stop_activity];
+        });
     });
 }
 @end

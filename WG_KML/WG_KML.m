@@ -21,6 +21,7 @@
     childKml = [NSMutableArray array];
     styles = [NSMutableDictionary dictionary];
     return [self initChild:true child:childKml styled:styles];
+    pv = NULL;
 }
 
 - (id)initChild:(bool)flag child:(NSMutableArray *)cary styled:(NSMutableDictionary *) style
@@ -31,6 +32,13 @@
     root_flag = flag;
     styles = style;
     return self;
+}
+
+-(void)setProgressView:(UIProgressView *)pv_in{
+    pv = pv_in;
+}
+-(unsigned long)numofkml{
+    return ([childKml count] + 1);
 }
 
 -(void)loadicons
@@ -413,9 +421,23 @@
             [mOjects addObject:addobj];
         }
     }
+    int count = 1;
+    if(pv != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            pv.progress = (float)count/(float)[self numofkml];
+            NSLog(@"%f",pv.progress);
+        });
+    }
     if(root_flag){
         for(WG_KML *wg_kml_child in childKml){
             [wg_kml_child loadgroundoverlay];
+            count += 1;
+            if(pv != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    pv.progress = (float)count/(float)[self numofkml];
+                    NSLog(@"%f",pv.progress);
+                });
+            }
         }
     }
 }

@@ -20,9 +20,11 @@
     bool root_flag;
     NSMutableArray *childKml;
     NSMutableDictionary *styles;
+    UIProgressView *pv;
 }
 @property NSString *filePath;
 @property WhirlyGlobeViewController *theViewC;
+-(void)setProgressView:(UIProgressView *)pv_in;
 -(void)loadicons;
 -(void)loadpolys;
 -(void)loadlines;
