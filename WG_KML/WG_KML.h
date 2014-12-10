@@ -21,10 +21,15 @@
     NSMutableArray *childKml;
     NSMutableDictionary *styles;
     UIProgressView *pv;
+    UILabel *texlab;
+    //for debug
+    int element_count;
+    int num_of_pixel;
 }
 @property NSString *filePath;
 @property WhirlyGlobeViewController *theViewC;
 -(void)setProgressView:(UIProgressView *)pv_in;
+-(void)setProgressLabel:(UILabel *)lab_in;
 -(void)loadicons;
 -(void)loadpolys;
 -(void)loadlines;

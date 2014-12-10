@@ -22,6 +22,9 @@
     styles = [NSMutableDictionary dictionary];
     return [self initChild:true child:childKml styled:styles];
     pv = NULL;
+    texlab = NULL;
+    element_count = 0;
+    num_of_pixel = 0;
 }
 
 - (id)initChild:(bool)flag child:(NSMutableArray *)cary styled:(NSMutableDictionary *) style
@@ -31,11 +34,17 @@
     childKml = cary;
     root_flag = flag;
     styles = style;
+    element_count = 0;
+    num_of_pixel = 0;
     return self;
+    
 }
 
 -(void)setProgressView:(UIProgressView *)pv_in{
     pv = pv_in;
+}
+-(void)setProgressLabel:(UILabel *)lab_in{
+    texlab = lab_in;
 }
 -(unsigned long)numofkml{
     return ([childKml count] + 1);
@@ -150,9 +159,33 @@
             [mOjects addObject:addobj];
         }
     }
+    int count = 1;
+    if(pv != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            pv.progress = (float)count/(float)[self numofkml];
+        });
+    }
+    if(texlab != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            texlab.text = [NSString stringWithFormat:@"loading icons %d / %d",
+                           count,(int)[self numofkml]];
+        });
+    }
     if(root_flag){
         for(WG_KML *wg_kml_child in childKml){
             [wg_kml_child loadicons];
+            count += 1;
+            if(pv != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    pv.progress = (float)count/(float)[self numofkml];
+                });
+            }
+            if(texlab != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    texlab.text = [NSString stringWithFormat:@"loading icons %d / %d",
+                                   count,(int)[self numofkml]];
+                });
+            }
         }
     }
 }
@@ -165,7 +198,6 @@
     if(text == nil){
         return;
     }
-    //NSLog(@"%@",text);
     //parsing kml
     KMLRoot *root = [KMLParser parseKMLWithString:text];
     defaultstyle = [self getStyles:styles styleselector:root.feature.styleSelectors];
@@ -213,7 +245,6 @@
                         
                     ColorConverter *cv = [[ColorConverter alloc] init];
                     [cv set_str:color];
-                    //NSLog(@"%f:%f:%f:%f",[cv get_red],[cv get_green],[cv get_blue], [cv get_alpha]);
                     UIColor *cl = [UIColor colorWithRed:[cv get_red] green:[cv get_green] blue:[cv get_blue] alpha:[cv get_alpha]];
                     addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                                        kMaplyFilled:@YES}];
@@ -250,9 +281,33 @@
             }
         }
     }
+    int count = 1;
+    if(pv != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            pv.progress = (float)count/(float)[self numofkml];
+        });
+    }
+    if(texlab != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            texlab.text = [NSString stringWithFormat:@"loading polys %d / %d",
+                           count,(int)[self numofkml]];
+        });
+    }
     if(root_flag){
         for(WG_KML *wg_kml_child in childKml){
             [wg_kml_child loadpolys];
+            count += 1;
+            if(pv != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    pv.progress = (float)count/(float)[self numofkml];
+                });
+            }
+            if(texlab != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    texlab.text = [NSString stringWithFormat:@"loading polys %d / %d",
+                                   count,(int)[self numofkml]];
+                });
+            }
         }
     }
 }
@@ -317,10 +372,12 @@
                         addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyColor: cl,
                                                                   kMaplyFilled:@NO}];
                         [mOjects addObject:addobj];
+                        element_count += 1;
                     }
                     else{
                         addobj = [_theViewC addVectors:@[sfOutline] desc:@{kMaplyFilled:@NO}];
                         [mOjects addObject:addobj];
+                        element_count += 1;
                     }
                 }
             }
@@ -343,12 +400,38 @@
                                                           kMaplyFilled:@NO}];
             if(addobj != nil){
                 [mOjects addObject:addobj];
+                element_count += 1;
             }
         }
+    }
+    NSLog(@"%d",element_count);
+    int count = 1;
+    if(pv != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            pv.progress = (float)count/(float)[self numofkml];
+        });
+    }
+    if(texlab != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            texlab.text = [NSString stringWithFormat:@"loading lines %d / %d",
+                           count,(int)[self numofkml]];
+        });
     }
     if(root_flag){
         for(WG_KML *wg_kml_child in childKml){
             [wg_kml_child loadlines];
+            count += 1;
+            if(pv != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    pv.progress = (float)count/(float)[self numofkml];
+                });
+            }
+            if(texlab != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    texlab.text = [NSString stringWithFormat:@"loading lines %d / %d",
+                                   count,(int)[self numofkml]];
+                });
+            }
         }
     }
 }
@@ -411,6 +494,7 @@
         west = goverlay.latLonBox.west;
         NSString *imagepath = goverlay.icon.href;
         UIImage *imgImage = [self load_img:imagepath];
+        num_of_pixel += imgImage.size.height * imgImage.size.width;
         MaplySticker *mstick = [[MaplySticker alloc] init];
         mstick.image = imgImage;
         mstick.ll = MaplyCoordinateMakeWithDegrees(west, south);
@@ -421,11 +505,17 @@
             [mOjects addObject:addobj];
         }
     }
+    NSLog(@"%d",num_of_pixel);
     int count = 1;
     if(pv != NULL){
         dispatch_async(dispatch_get_main_queue(), ^{
             pv.progress = (float)count/(float)[self numofkml];
-            NSLog(@"%f",pv.progress);
+        });
+    }
+    if(texlab != NULL){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            texlab.text = [NSString stringWithFormat:@"loading overlays %d / %d",
+                           count,(int)[self numofkml]];
         });
     }
     if(root_flag){
@@ -435,7 +525,12 @@
             if(pv != NULL){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     pv.progress = (float)count/(float)[self numofkml];
-                    NSLog(@"%f",pv.progress);
+                });
+            }
+            if(texlab != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    texlab.text = [NSString stringWithFormat:@"loading overlays %d / %d",
+                                   count,(int)[self numofkml]];
                 });
             }
         }
@@ -510,7 +605,11 @@
     [self getNetworklinks:container];
     for(NSObject *aobj in networklinks){
         KMLNetworkLink *nlink = (KMLNetworkLink *)aobj;
-        NSLog(@"%@",nlink.link.href);
+        if(texlab != NULL){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                texlab.text = [NSString stringWithFormat:@"download from %@",nlink.link.href];
+            });
+        }
         if(nlink.link.href != NULL){
             if(![[nlink.link.href substringToIndex:7] isEqualToString:@"http://"] && kmzflag){
                 WG_KML *child = [[WG_KML alloc] initChild:false child:childKml styled:styles];

@@ -26,9 +26,11 @@
     NSUserDefaults *ud;
     WG_KML *wg_kml;
     ConfigViewController *configViewC;
-    UIActivityIndicatorView *indicator;
+    //for loading indicator
     UIActivityIndicatorView *ai;
     UIProgressView *pv;
+    UIView *uv;
+    UILabel *texlab;
 }
 
 - (void)viewDidLoad {
@@ -315,22 +317,34 @@
 
 -(void)start_activity
 {
+    uv = [[UIView alloc] initWithFrame:CGRectMake(0,0,250,100)];
     ai = [[UIActivityIndicatorView alloc] init];
-    ai.frame = CGRectMake(0, 0, 50, 50);
-    ai.center = self.view.center;
+    ai.frame = CGRectMake(100, 0, 50, 50);
     ai.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    pv.frame = CGRectMake(0, 0, 200, 10);
+    pv.frame = CGRectMake(25, 95, 200, 10);
     pv.progress = 0;
-    pv.center = self.view.center;
+    texlab = [[UILabel alloc] initWithFrame:CGRectMake(5,50,240,45)];
+    texlab.text = @"Now loading";
+    texlab.numberOfLines = 0;
+    texlab.font = [UIFont systemFontOfSize:12];
+    texlab.textAlignment = NSTextAlignmentCenter;
+    uv.center = self.view.center;
+    uv.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.5];
+    uv.userInteractionEnabled = false;
     [wg_kml setProgressView:pv];
-    [self.view addSubview:pv];
-    [self.view addSubview:ai];
+    [wg_kml setProgressLabel:texlab];
+    [uv addSubview:pv];
+    [uv addSubview:ai];
+    [uv addSubview:texlab];
+    [self.view addSubview:uv];
     [ai startAnimating];
 }
 -(void) stop_activity{
     [pv removeFromSuperview];
     [ai removeFromSuperview];
+    [texlab removeFromSuperview];
+    [uv removeFromSuperview];
 }
 -(void)load_icon_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
