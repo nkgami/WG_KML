@@ -17,7 +17,7 @@
     if (self.length == 0) {
         return nil;
     }
-    CC_LONG len = self.length;
+    CC_LONG len = (CC_LONG)self.length;
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(data, len, result);
     NSMutableString *ms = @"".mutableCopy;

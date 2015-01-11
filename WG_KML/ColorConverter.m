@@ -19,7 +19,7 @@ NSString *_str_color;
 
 - (float)get_red
 {
-    if(_str_color == nil || _str_color == NULL){
+    if(_str_color == nil){
         return (float)1;
     }
     NSString *sc = [_str_color substringWithRange:NSMakeRange(0, 2)];
@@ -30,7 +30,7 @@ NSString *_str_color;
 }
 - (float)get_green
 {
-    if(_str_color == nil || _str_color == NULL){
+    if(_str_color == nil){
         return (float)1;
     }
     NSString *sc = [_str_color substringWithRange:NSMakeRange(2, 2)];
@@ -42,7 +42,7 @@ NSString *_str_color;
 
 - (float)get_blue
 {
-    if(_str_color == nil || _str_color == NULL){
+    if(_str_color == nil){
         return (float)1;
     }
     NSString *sc = [_str_color substringWithRange:NSMakeRange(4, 2)];
@@ -54,7 +54,7 @@ NSString *_str_color;
 
 - (float)get_alpha
 {
-    if(_str_color == nil || _str_color == NULL){
+    if(_str_color == nil){
         return (float)0.5;
     }
     NSString *sc = [_str_color substringWithRange:NSMakeRange(6, 2)];

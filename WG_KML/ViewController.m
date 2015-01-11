@@ -23,14 +23,29 @@
     WhirlyGlobeViewController * theViewC;
     MaplyQuadImageTilesLayer * aerialLayer;
     MaplyComponentObject * selectLabelObj;
-    NSUserDefaults *ud;
-    WG_KML *wg_kml;
-    ConfigViewController *configViewC;
+    NSUserDefaults *ud; //save url
+    WG_KML *wg_kml; //main class for kml
+    ConfigViewController *configViewC; //for download method
+    
     //for loading indicator
     UIActivityIndicatorView *ai;
     UIProgressView *pv;
     UIView *uv;
     UILabel *texlab;
+    
+}
+
+//this method is needed for memory free
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if(![self.navigationController.viewControllers containsObject:self]){
+        [wg_kml clearChildren];
+        theViewC = nil;
+        wg_kml = nil;
+        aerialLayer = nil;
+        configViewC = nil;
+    }
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
@@ -48,11 +63,7 @@
     
     theViewC.delegate = self;
     
-    ud = [NSUserDefaults standardUserDefaults];
-    NSMutableDictionary *ud_defaults = [NSMutableDictionary dictionary];
-    [ud_defaults setObject:@"http://example.org/test.kml" forKey:@"KML_URL"];
-    [ud registerDefaults:ud_defaults];
-    
+    //for default layer(earth ground)
     NSString *baseCacheDir = [NSSearchPathForDirectoriesInDomains
                               (NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *aerialTtileCacheDir = [NSString stringWithFormat:@"%@_myTiles/",baseCacheDir];
@@ -61,39 +72,44 @@
     MaplyRemoteTileSource *tileSource = [[MaplyRemoteTileSource alloc] initWithBaseURL:@"http://otile1.mqcdn.com/tiles/1.0.0/sat/" ext:@"png" minZoom:0 maxZoom:maxZoom];
     tileSource.cacheDir = aerialTtileCacheDir;
     aerialLayer = [[MaplyQuadImageTilesLayer alloc] initWithCoordSystem:tileSource.coordSys tileSource:tileSource];
-    
     [theViewC addLayer:aerialLayer];
-    
     [theViewC animateToPosition:MaplyCoordinateMakeWithDegrees(-102.416667, 37.783333) time:1.0];
     
+    //set UserDefaults to save url which user input
+    ud = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *ud_defaults = [NSMutableDictionary dictionary];
+    [ud_defaults setObject:@"http://example.org/test.kml" forKey:@"KML_URL"];
+    [ud registerDefaults:ud_defaults];
+    
+    //from user select, switch to each method
     switch (_option)
     {
         case PopulationGrowthRate_Polygon:
-            [self fetchPopulationGrowthRate];
+            [self fetchPopulationGrowthRate];//load from local kml
             break;
         case NulcearPowerPlants_Icon:
-            [self fetchNuclearPowerPlants];
+            [self fetchNuclearPowerPlants];//load from local kml
             break;
         case HydroPowerPlants_Icon:
-            [self fetchHydroPowerPlants];
+            [self fetchHydroPowerPlants];//load from local kml
             break;
         case WindPowerPlants_DEN_Icon:
-            [self fetchWindPowerPlants_DEN];
+            [self fetchWindPowerPlants_DEN];//load from local kml
             break;
         case NuclearPowerPlants_JPN_Icon:
-            [self fetchNuclearPowerPlants_JPN];
+            [self fetchNuclearPowerPlants_JPN];//load from local kml
             break;
         case Sea_Level_Trends_Icon:
-            [self fetchSea_Level_Trends];
+            [self fetchSea_Level_Trends];//load from local kml
             break;
         case RailRoads_GBR_UKR_LineString:
-            [self fetchRailRoads];
+            [self fetchRailRoads];//load from local kml
             break;
         case SFRainRadar_GroundOverlay:
-            [self fetchSFRainRader];
+            [self fetchSFRainRader];//load from local kmz
             break;
         case KMLfromURL:
-            [self fetchKMLfromURL];
+            [self fetchKMLfromURL];//download kml using user input url
             break;
     }
 }
@@ -103,7 +119,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+//Polygon sample
 - (void) fetchPopulationGrowthRate
 {
     wg_kml = [[WG_KML alloc]init];
@@ -112,6 +128,7 @@
     [wg_kml loadpolys];
 }
 
+//Icon sample
 - (void) fetchNuclearPowerPlants
 {
     wg_kml = [[WG_KML alloc]init];
@@ -120,6 +137,7 @@
     [wg_kml loadicons];
 }
 
+//Icon sample
 - (void) fetchHydroPowerPlants
 {
     wg_kml = [[WG_KML alloc]init];
@@ -129,6 +147,7 @@
 
 }
 
+//Icon sample
 - (void) fetchWindPowerPlants_DEN
 {
     wg_kml = [[WG_KML alloc]init];
@@ -138,6 +157,7 @@
 
 }
 
+//Icon sample
 - (void) fetchNuclearPowerPlants_JPN
 {
     wg_kml = [[WG_KML alloc]init];
@@ -146,6 +166,7 @@
     [wg_kml loadicons];
 }
 
+//Icon sample
 - (void) fetchSea_Level_Trends
 {
     wg_kml = [[WG_KML alloc]init];
@@ -154,6 +175,7 @@
     [wg_kml loadicons];
 }
 
+//LineString sample
 - (void) fetchRailRoads
 {
     wg_kml = [[WG_KML alloc]init];
@@ -162,6 +184,7 @@
     [wg_kml loadlines];
 }
 
+//GroundOverlay sample
 - (void) fetchSFRainRader
 {
     wg_kml = [[WG_KML alloc]init];
@@ -171,8 +194,10 @@
     [wg_kml loadgroundoverlay];
 }
 
+//Networklink and download method sample.You can select which element to show
 - (void) fetchKMLfromURL
 {
+    //show UI to input url
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"KMLfromURL"
                                                     message:@"input URL of KML or KMZ file"
                                                    delegate:self
@@ -184,6 +209,7 @@
     [alert show];
 }
 
+//Show name of the icon when touch icons
 - (void)globeViewController:(WhirlyGlobeViewController *)viewC didSelect:(NSObject *) selectedObj atLoc:(MaplyCoordinate)coord onScreen:(CGPoint)screenPt
 {
     if(selectLabelObj){
@@ -205,14 +231,26 @@
     }
 }
 
+//Download KML from url
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
         NSString *inputURL = [[alertView textFieldAtIndex:0] text];
         [ud setObject:inputURL forKey:@"KML_URL"];
         wg_kml = [[WG_KML alloc]init];
         wg_kml.theViewC = theViewC;
-        if([wg_kml download:inputURL] == 0){
+        if([wg_kml download:inputURL] == 0){// show configure view
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showConfig)];
+        }
+        else{//bad file
+            UIAlertView *alert = [
+                                  [UIAlertView alloc]
+                                  initWithTitle : @"RequestError"
+                                  message : @"please input kml or kmz file."
+                                  delegate : nil
+                                  cancelButtonTitle : @"OK"
+                                  otherButtonTitles : nil
+                                  ];
+            [alert show];
         }
     }
 }
@@ -232,6 +270,7 @@
     }
 }
 
+//after choosing "Done", load each elements on background.
 - (void)editDone
 {
     [self.navigationController popToViewController:self animated:YES];
@@ -302,6 +341,7 @@
     }
 }
 
+//before start, clean temporary files
 -(void)cleantmp
 {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -315,6 +355,7 @@
     }
 }
 
+//show how is the progress of background loading on front view
 -(void)start_activity
 {
     uv = [[UIView alloc] initWithFrame:CGRectMake(0,0,250,100)];
@@ -340,12 +381,16 @@
     [self.view addSubview:uv];
     [ai startAnimating];
 }
+
+//stop showing the progress
 -(void) stop_activity{
     [pv removeFromSuperview];
     [ai removeFromSuperview];
     [texlab removeFromSuperview];
     [uv removeFromSuperview];
 }
+
+//Background loading methods
 -(void)load_icon_bg{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         [wg_kml loadnetworklinks];

@@ -11,23 +11,24 @@
 
 @interface WG_KML : NSObject
 {
-    bool kmzflag;
-    NSString *kmzDir;
-    NSString *kmzmainkml;
-    NSMutableArray *overlays;
-    NSMutableArray *networklinks;
-    NSMutableArray *mOjects;
-    bool root_flag;
-    NSMutableArray *childKml;
-    NSMutableDictionary *styles;
-    UIProgressView *pv;
-    UILabel *texlab;
+    bool kmzflag;//if the file is kmz, true
+    NSString *kmzDir;//directory path of the unzipped kmz
+    NSString *kmzmainkml;//file path of the main kml file in kmz
+    NSMutableArray *overlays;//contain overlay elements
+    NSMutableArray *networklinks;//contain networklink elements
+    NSMutableArray *mOjects;//push already showed ojects
+    bool root_flag;//if instance is the root of the kml tree, true
+    NSMutableArray *childKml;//contain all child kml files
+    NSMutableDictionary *styles;//contain style data
+    UIProgressView *pv;//view to show progress
+    UILabel *texlab;//text label to show progress
+    
     //for debug
     int element_count;
     int num_of_pixel;
 }
-@property NSString *filePath;
-@property WhirlyGlobeViewController *theViewC;
+@property NSString *filePath;//local path of kml or kmz file
+@property WhirlyGlobeViewController *theViewC;//need to set
 -(void)setProgressView:(UIProgressView *)pv_in;
 -(void)setProgressLabel:(UILabel *)lab_in;
 -(void)loadicons;
@@ -38,5 +39,6 @@
 -(int)download:(NSString *)surl;
 -(void)removeall;
 -(void)loadnetworklinks;
+-(void)clearChildren;
 -(id)init;
 @end

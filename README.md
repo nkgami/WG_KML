@@ -29,6 +29,17 @@ Sample kml data come from:
 
 Thanks to these data sources.
 
+## ScreenShots
+![Screenshot1](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc1.png)
+![Screenshot2](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc2.png)
+![Screenshot3](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc3.png)
+![Screenshot4](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc4.png)
+![Screenshot5](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc5.png)
+![Screenshot6](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc6.png)
+![Screenshot7](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc7.png)
+![Screenshot8](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc8.png)
+![Screenshot9](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc9.png)
+
 ## Author
 [nkgami](https://github.com/nkgami)
 

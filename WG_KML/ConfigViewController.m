@@ -3,7 +3,7 @@
 //  WG_KML
 //
 //  Created by Hiroki Nakagami on 2014/11/07.
-//  Copyright (c) 2014年 Hiroki Nakagami. All rights reserved.
+//  Copyright (c) 2014 Hiroki Nakagami. All rights reserved.
 //
 
 #import "ConfigViewController.h"
@@ -12,6 +12,8 @@
 
 @end
 
+
+//View for configuring to select showed element
 @implementation ConfigViewController
 
 - (void)viewDidLoad {
@@ -39,7 +41,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 5; //number of selection
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

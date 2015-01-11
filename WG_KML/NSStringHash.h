@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Hiroki Nakagami. All rights reserved.
 //
 
+//Get MD5 Hash from String
+
 #import <Foundation/Foundation.h>
 
 @interface NSString (Hash)
