@@ -30,7 +30,7 @@ Sample kml data come from:
 Thanks to these data sources.
 
 ## ScreenShots
-[[https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc1.png | width = 300px]]
+![Screenshot1](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc1.png)
 ![Screenshot2](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc2.png)
 ![Screenshot3](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc3.png)
 ![Screenshot4](https://raw.githubusercontent.com/wiki/nkgami/wg_kml/images/wgkml_sc4.png)
