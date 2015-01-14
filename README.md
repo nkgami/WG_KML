@@ -4,10 +4,10 @@ WG_KML
 Overview
 
 ## Description
-KML support for WhirlyGlobe-Maply
+KML extenstion for [WhirlyGlobe-Maply](http://mousebird.github.io/WhirlyGlobe/)
 
 ## Requirement
-xcode and WhirlyGlobe-Maply Binary Distribution
+xcode and [WhirlyGlobe-Maply Binary Distribution](http://mousebird.github.io/WhirlyGlobe/tutorial/building_from_binary.html)
 
 ## Install
 1. Download the binary version of WhirlyGlobe from:
@@ -16,7 +16,10 @@ and unzip.
 2. git clone at WhirlyGlobe_Maply_Distribution_2_3/examples
 3. cd WhirlyGlobe_Maply_Distribution_2_3/examples
 4. pod install
-5. open WG_KML.xcworkspace on xcode
+5. open WG\_KML.xcworkspace on xcode
+
+## Usage of WG\_KML class
+Please see [this wiki page](https://github.com/nkgami/WG_KML/wiki)
 
 ## Sample data
 Sample kml data come from:

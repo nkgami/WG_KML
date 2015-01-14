@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import "WhirlyGlobeComponent.h"
 #import "KML.h"
-#import "ColorConverter.h"
 #import "OptionsViewController.h"
 #import "WG_KML.h"
 #import "ConfigViewController.h"
